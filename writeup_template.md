@@ -15,12 +15,12 @@ The code for this step is contained in lines 263 through 299 of the file called 
 
 I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
 
-![alt text][image1]
+
 
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` 
 
 
-![alt text][image2]
+
 
 #### 2. Explain how you settled on your final choice of HOG parameters.
 
@@ -57,14 +57,13 @@ In the find_cars function, i decide the move_steps of the window to be 2 cells. 
 
 
 
-![alt text][image3]
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
 Since in the course i found that the YUV color space is better for linearSVC so i choose YUV color space. And of course the HOG features, along with the color and spatial features, since they can provide a better result.
 But in those features the HOG features should be dominant otherwise the detection will be worse.
 
-![alt text][image4]
+
 ---
 
 ### Video Implementation
@@ -81,15 +80,6 @@ I recorded the positions of positive detections in each frame of the video.  Fro
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
-### Here are six frames and their corresponding heatmaps:
-
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
 
 
 
