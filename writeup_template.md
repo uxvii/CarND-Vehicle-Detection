@@ -93,5 +93,5 @@ Here I'll talk about the approach I took, what techniques I used, what worked an
 
 In the first phase, the HOG+SVM approach turned out to be slightly frustrating, in that strongly relied on the parameter chosed to perform feature extraction, training and detection. Even if I found a set of parameters that more or less worked for the project video, I wasn't satisfied of the result, because parameters were so finely tuned on the project video that certainly were not robust to different situations.
 
-For this reason, I turned to deep learning.
+if i want to make the result more roboust, i think deep neuron network would be the solution
 
