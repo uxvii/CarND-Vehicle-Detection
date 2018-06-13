@@ -19,10 +19,10 @@ def data_look(car_list,not_car_list):
 	return data_dict
 
 
-def color_hist(img, nbins = 32, bins_range = (0,256)):
-	rhist = np.histogram(img[:,:,0], bins=nbins, range=bins_range)
-	ghist = np.histogram(img[:,:,1], bins=nbins, range=bins_range)
-	bhist = np.histogram(img[:,:,2], bins=nbins, range=bins_range)
+def color_hist(img, nbins = 32):
+	rhist = np.histogram(img[:,:,0], bins=nbins)
+	ghist = np.histogram(img[:,:,1], bins=nbins)
+	bhist = np.histogram(img[:,:,2], bins=nbins)
 
 	hist_features = np.concatenate((rhist[0], ghist[0], bhist[0]))
 
@@ -41,7 +41,7 @@ def get_hot_features(img, orient, pix_per_cell, cell_per_block, vis=False, featu
 	if vis:
 		return_list = hog(img, orientations=orient, pixels_per_cell=(pix_per_cell, pix_per_cell),
 				cells_per_block=(cell_per_block,cell_per_block), visualise=vis, 
-				feature_vector=feature_vec, block_norm='L2-Hys')
+				feature_vector=feature_vec, transform_sqrt=False)
 
 		hog_features = return_list[0]
 		hog_image = return_list[1]
@@ -50,12 +50,12 @@ def get_hot_features(img, orient, pix_per_cell, cell_per_block, vis=False, featu
 	else:
 		hog_features = hog(img, orientations=orient, pixels_per_cell=(pix_per_cell, pix_per_cell),
 				cells_per_block=(cell_per_block,cell_per_block), visualise=vis, 
-				feature_vector=feature_vec, block_norm='L2-Hys')
+				feature_vector=feature_vec, transform_sqrt=False)
 
 		return hog_features
 
 
-def extract_features(imgs, cspace='RGB', spatial_size=(32,32), hist_bins=32, hist_range=(0,256), 
+def extract_features(imgs, cspace='RGB', spatial_size=(32,32), hist_bins=32, 
 					orient=9, pix_per_cell=8, cell_per_block=2, hog_channel=0, vis=False, 
 					feature_vec=True):
 	features = []
@@ -80,7 +80,7 @@ def extract_features(imgs, cspace='RGB', spatial_size=(32,32), hist_bins=32, his
 		spatial_features = bin_spatial(feature_image, size=spatial_size)
 		##print(spatial_features.shape)
 
-		hist_features = color_hist(feature_image, nbins=hist_bins, bins_range=hist_range)
+		hist_features = color_hist(feature_image, nbins=hist_bins)
 		##print(hist_features.shape)
 
 		if hog_channel == 'ALL':
@@ -117,7 +117,7 @@ def find_cars(img, ystart, ystop, scale, svc, X_scaler, orient, pix_per_cell, ce
 	box_list = []
 
 	img_tosearch = img[ystart:ystop, :, :]
-	ctrans_tosearch = convert_color(img_tosearch, conv='RGB2YCrCb')
+	ctrans_tosearch = convert_color(img_tosearch, conv='RGB2YUV')
 
 	if scale!= 1:
 		imshape = ctrans_tosearch.shape
@@ -176,7 +176,6 @@ def find_cars(img, ystart, ystop, scale, svc, X_scaler, orient, pix_per_cell, ce
 						(int(xbox_left + win_draw), int(ytop_draw + win_draw + ystart)) ))
 
 	return draw_img, box_list
-
 
 def add_heat(heatmap, bbox_list):
 	for box in bbox_list:
